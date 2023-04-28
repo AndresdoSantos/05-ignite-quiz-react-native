@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Pressable, PressableProps, Text } from 'react-native';
+import { Pressable, PressableProps } from 'react-native';
 import Animated, { 
   useSharedValue, 
   useAnimatedStyle,
@@ -9,6 +9,8 @@ import Animated, {
 
 import { THEME } from '../../styles/theme';
 import { styles } from './styles';
+
+const PressableAnimated = Animated.createAnimatedComponent(Pressable);
 
 const TYPE_COLORS = {
   EASY: THEME.COLORS.BRAND_LIGHT,
@@ -66,23 +68,15 @@ export function Level({ title, type = 'EASY', isChecked = false, ...rest }: Prop
   }, [isChecked]);
 
   return (
-    <Pressable onPressIn={onPressIn} onPressOut={onPressOut} {...rest}>
-      <Animated.View style={
-        [
-          styles.container,
-          animatedContainerStyle,
-          { borderColor: COLOR }
-        ]
-      }>
-        <Animated.Text style={
-          [
-            styles.title,
-            animatedTextStyle,
-          ]
-        }>
-          {title}
-        </Animated.Text>
-      </Animated.View>
-    </Pressable>
+    <PressableAnimated 
+      onPressIn={onPressIn} 
+      onPressOut={onPressOut} 
+      style={[ styles.container, animatedContainerStyle, { borderColor: COLOR } ]}
+      {...rest}
+    >
+      <Animated.Text style={[ styles.title, animatedTextStyle ]}>
+        {title}
+      </Animated.Text>
+    </PressableAnimated>
   );
 }
